@@ -40,6 +40,7 @@ import { gitlabAuthApiRef } from '@backstage/core-plugin-api';
 import { googleAuthApiRef } from '@backstage/core-plugin-api';
 import { IconComponent } from '@backstage/core-plugin-api';
 import { IdentityApi } from '@backstage/core-plugin-api';
+import { JsonValue } from '@backstage/types';
 import { microsoftAuthApiRef } from '@backstage/core-plugin-api';
 import { OAuthApi } from '@backstage/core-plugin-api';
 import { OAuthRequestApi } from '@backstage/core-plugin-api';
@@ -60,7 +61,7 @@ import { RouteRef } from '@backstage/core-plugin-api';
 import { SessionApi } from '@backstage/core-plugin-api';
 import { SessionState } from '@backstage/core-plugin-api';
 import { StorageApi } from '@backstage/core-plugin-api';
-import { StorageValueChange } from '@backstage/core-plugin-api';
+import { StorageValueSnapshot } from '@backstage/core-plugin-api';
 import { SubRouteRef } from '@backstage/core-plugin-api';
 
 // @public
@@ -636,10 +637,12 @@ export class WebStorage implements StorageApi {
   // (undocumented)
   get<T>(key: string): T | undefined;
   // (undocumented)
-  observe$<T>(key: string): Observable<StorageValueChange<T>>;
+  observe$<T>(key: string): Observable<StorageValueSnapshot<T>>;
   // (undocumented)
   remove(key: string): Promise<void>;
   // (undocumented)
   set<T>(key: string, data: T): Promise<void>;
+  // (undocumented)
+  snapshot<T extends JsonValue>(key: string): StorageValueSnapshot<T>;
 }
 ```

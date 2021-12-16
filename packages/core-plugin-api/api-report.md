@@ -11,6 +11,7 @@ import { ComponentType } from 'react';
 import { Config } from '@backstage/config';
 import { IconComponent as IconComponent_2 } from '@backstage/core-plugin-api';
 import { IdentityApi as IdentityApi_2 } from '@backstage/core-plugin-api';
+import { JsonValue } from '@backstage/types';
 import { Observable as Observable_2 } from '@backstage/types';
 import { Observer as Observer_2 } from '@backstage/types';
 import { ProfileInfo as ProfileInfo_2 } from '@backstage/core-plugin-api';
@@ -798,20 +799,37 @@ export type SignInResult = {
 // @public
 export interface StorageApi {
   forBucket(name: string): StorageApi;
-  get<T>(key: string): T | undefined;
-  observe$<T>(key: string): Observable_2<StorageValueChange<T>>;
+  // @deprecated
+  get<T extends JsonValue>(key: string): T | undefined;
+  observe$<T extends JsonValue>(
+    key: string,
+  ): Observable_2<StorageValueSnapshot<T>>;
   remove(key: string): Promise<void>;
-  set(key: string, data: any): Promise<void>;
+  set<T extends JsonValue>(key: string, data: T): Promise<void>;
+  snapshot<T extends JsonValue>(key: string): StorageValueSnapshot<T>;
 }
 
 // @public
 export const storageApiRef: ApiRef<StorageApi>;
 
+// @public @deprecated (undocumented)
+export type StorageValueChange<TValue extends JsonValue> =
+  StorageValueSnapshot<TValue>;
+
 // @public
-export type StorageValueChange<T = any> = {
-  key: string;
-  newValue?: T;
-};
+export type StorageValueSnapshot<TValue extends JsonValue> =
+  | {
+      key: string;
+      presence: 'unknown' | 'absent';
+      value?: undefined;
+      newValue?: undefined;
+    }
+  | {
+      key: string;
+      presence: 'present';
+      value: TValue;
+      newValue?: TValue;
+    };
 
 // @public
 export type SubRouteRef<Params extends AnyParams = any> = {
