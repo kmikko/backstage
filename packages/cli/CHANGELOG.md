@@ -1,5 +1,13 @@
 # @backstage/cli
 
+## 0.10.3
+
+### Patch Changes
+
+- dfc1110dc4: Added peerPluginDependencies option to experimentalInstallationRecipe for install command to install plugins it depends on.
+- Updated dependencies
+  - @backstage/config-loader@0.9.0
+
 ## 0.10.2
 
 ### Patch Changes

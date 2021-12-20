@@ -1,5 +1,15 @@
 # @backstage/core-plugin-api
 
+## 0.4.0
+
+### Minor Changes
+
+- 6b69b44862: Removed deprecated types `ApiRefType` and `ApiRefsToTypes`
+
+### Patch Changes
+
+- 7927005152: Add `FetchApi` and related `fetchApiRef` which implement fetch, with an added Backstage token header when available.
+
 ## 0.3.1
 
 ### Patch Changes
